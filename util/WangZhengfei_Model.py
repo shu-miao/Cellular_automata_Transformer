@@ -35,6 +35,7 @@ def WangZhengfei_Model(T_max,W_mean,h_min,s,w,p):
         '红松、华山松、云南松等林地': 1.0
     }
     Ks = Ks_dict.get(s, 1.0)  # 可燃物综合物理性质与化学性质的燃烧性系数 默认值为1.0
+    Ks = 1.0
     Kw_dict = {
         (1, 1): 1.2,
         (1, 2): 1.4,
