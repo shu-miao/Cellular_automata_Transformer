@@ -19,5 +19,5 @@ def xlsx_to_csv_with_time(xlsx_file, csv_file):
     df.to_csv(csv_file, index=False)
 
 
-xlsx_to_csv_with_time(r'train.xlsx',
-                      r'train.csv')
+xlsx_to_csv_with_time(r'train1.0.xlsx',
+                      r'train1.0.csv')

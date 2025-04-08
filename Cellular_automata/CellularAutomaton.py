@@ -32,9 +32,10 @@ class CellularAutomaton:
         self.grid_size = grid_size
         self.granularity = granularity
         self.grid = np.zeros((grid_size, grid_size))
+        self.Cellular_dict = {}
     def update(self,fire_cellular:Fire_cellular):
         '''
         :param fire_cellular: 火蔓延参数
         :return:
         '''
-
+        self.Cellular_dict[self.grid[self.grid_size * 0.5, self.grid_size * 0.5]] = fire_cellular # 添加初始位置到沙盘中心
