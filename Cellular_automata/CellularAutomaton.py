@@ -3,7 +3,7 @@ import pandas as pd
 from util.WangZhengfei_Model import WangZhengfei_Model
 
 class Fire_cellular:
-    def __init__(self,T_max,W_mean,h_min,s,w,p,lat,lon):
+    def __init__(self,Time,T_max,W_mean,h_min,s,w,p,lat,lon):
         '''
         :param T_max: 日最高气温
         :param W_mean: 中午平均风级
@@ -22,6 +22,23 @@ class Fire_cellular:
         self.p = p
         self.lat = lat
         self.lon = lon
+        self.time = Time
+
+class Cellular:
+    def __init__(self,s,p,lat,lon,stage,value):
+        '''
+        单个元胞
+        :param s: 可燃物类型
+        :param p: 坡度
+        :param lat: 经度
+        :param lon: 维度
+        '''
+        self.s = s
+        self.p = p
+        self.lat = lat
+        self.lon = lon
+        self.stage = stage
+        self.value = value
 
 class CellularAutomaton:
     def __init__(self,grid_size,granularity):
