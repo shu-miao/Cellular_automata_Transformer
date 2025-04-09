@@ -56,7 +56,7 @@ class CellularAutomaton:
         self.grid += speed.item()
 
 def main():
-    data_file = 'data/train.csv'
+    data_file = 'data/train2.csv'
     data = pd.read_csv(data_file,nrows=1000)
 
     latitudes = data['lat'].values
