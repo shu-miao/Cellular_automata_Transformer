@@ -41,12 +41,14 @@ class Cellular:
         '''
         self.s = s
         self.p = p
-        self.is_river = is_river
+        self.is_river = (is_river-1).__abs__()
         self.lat = lat
         self.lon = lon
         self.stage = stage
         self.value = value
         self.local = (lat, lon)
+        self.x = None
+        self.y = None
     def update_value(self,fire_cellular:Fire_cellular):
         self.value = fire_cellular.R * 10
     def show(self):
@@ -63,24 +65,21 @@ class CellularAutomaton:
         self.grid = np.empty(grid_size,dtype=object)
         self.Cellular_dict = {}
         self.local_dict = {}
-        data_list = []
-        for i in range(0,len(self.data),300):
-            temp_list = []
-            temp_list.append(self.data['S'].values[i])
-            temp_list.append(self.data['P'].values[i])
-            temp_list.append(self.data['Lon'].values[i])
-            temp_list.append(self.data['Lat'].values[i])
-            temp_list.append(self.data['is_river'].values[i])
-            data_list.append(temp_list)
+        data_list = self.data.iloc[::300, [5, 6, 1, 2, 10]].values
+
         k = 0
         for i in range(len(self.grid)):
             for j in range(len(self.grid[i])):
                 self.grid[i][j] = Cellular(data_list[k][0],data_list[k][1],data_list[k][4],data_list[k][2],data_list[k][3],0,0)
                 self.Cellular_dict[self.grid[i][j].local] = self.grid[i][j]
-                self.local_dict[self.grid[i][j].local] = [10-i,j]
+                self.local_dict[self.grid[i][j].local] = [i,j]
                 k += 1
-        self.grid = self.grid.transpose()
-        print(self.Cellular_dict)
+        self.grid = self.grid.transpose()[::-1]
+
+        for i in range(len(self.grid)):
+            for j in range(len(self.grid[i])):
+                self.Cellular_dict[self.grid[i][j].local] = self.grid[i][j]
+                self.local_dict[self.grid[i][j].local] = [i, j]
 
     def find_Cellular(self,fire_points):
         find_Cellular_dict = {}
