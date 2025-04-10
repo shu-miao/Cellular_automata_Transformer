@@ -46,7 +46,7 @@ class Cellular:
         self.lon = lon
         self.stage = stage
         self.value = value
-        self.local = [lat, lon]
+        self.local = (lat, lon)
     def update_value(self,fire_cellular:Fire_cellular):
         self.value = fire_cellular.R * 10
     def show(self):
@@ -61,6 +61,8 @@ class CellularAutomaton:
         self.grid_size = grid_size
         self.data = pd.read_csv(path)
         self.grid = np.empty(grid_size,dtype=object)
+        self.Cellular_dict = {}
+        self.local_dict = {}
         data_list = []
         for i in range(0,len(self.data),300):
             temp_list = []
@@ -74,20 +76,29 @@ class CellularAutomaton:
         for i in range(len(self.grid)):
             for j in range(len(self.grid[i])):
                 self.grid[i][j] = Cellular(data_list[k][0],data_list[k][1],data_list[k][4],data_list[k][2],data_list[k][3],0,0)
+                self.Cellular_dict[self.grid[i][j].local] = self.grid[i][j]
+                self.local_dict[self.grid[i][j].local] = [10-i,j]
                 k += 1
-        print(self.grid[0][0].show())
-        self.Cellular_dict = {}
+        self.grid = self.grid.transpose()
+        print(self.Cellular_dict)
+
+    def find_Cellular(self,fire_points):
+        find_Cellular_dict = {}
+        for i in fire_points:
+            if self.Cellular_dict[i] is not None:
+                find_Cellular_dict[i] = self.Cellular_dict[i]
+        return find_Cellular_dict
+
     def update(self,fire_cellular:Fire_cellular,fire_points):
         '''
         :param fire_cellular: 火蔓延参数
         :param fire_points: 着火点[[a,b],[c,d]]
         :return:
         '''
-        for i in fire_points:
-            for j in self.grid:
-                for k in self.grid[j]:
-                    if self.grid[j][k].local == i:
-                        self.grid[j][k].update(fire_cellular)
+
 
 
 ca = CellularAutomaton((10,10),'../data/train2.0.csv')
+print(ca.find_Cellular([(106.59,26.628),(106.59,26.638)])[(106.59,26.638)].show())
+print(ca.local_dict)
+
